@@ -1,0 +1,150 @@
+/* Écran « Journal » — timeline du jour */
+
+.jour-nav {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.jour-nav button {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--line-fort);
+  background: transparent;
+  color: var(--text);
+  font-size: 20px;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+}
+
+/* Timeline */
+.timeline {
+  margin: 10px 0 20px;
+}
+
+.tl-item {
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  gap: 12px;
+}
+
+.tl-heure {
+  font-size: 12px;
+  color: var(--text-dim);
+  text-align: right;
+  padding-top: 2px;
+  font-variant-numeric: tabular-nums;
+}
+
+.tl-content {
+  position: relative;
+  border-left: 1px solid var(--line);
+  padding: 0 0 22px 20px;
+}
+
+.tl-item:last-child .tl-content {
+  padding-bottom: 4px;
+}
+
+.tl-content::before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: 5px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--pt, var(--teal));
+  box-shadow: 0 0 0 3px var(--bg);
+}
+
+.tl-tete {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tl-titre {
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-fort);
+  margin: 0;
+}
+
+.tl-tag {
+  font-size: 10.5px;
+  color: var(--text-dim);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 1px 8px;
+}
+
+.tl-suppr {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 13px;
+  padding: 2px 4px;
+}
+
+.tl-texte {
+  margin: 5px 0 0;
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.tl-texte--italique {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 15px;
+}
+
+/* Carte rêve */
+.reve-card {
+  margin-top: 8px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background:
+    linear-gradient(180deg, rgba(179, 163, 223, 0.12), transparent 70%), var(--panel);
+}
+
+.reve-badge {
+  display: inline-block;
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  color: #c9bff0;
+  border: 1px solid rgba(179, 163, 223, 0.5);
+  border-radius: 999px;
+  padding: 2px 9px;
+  margin-bottom: 8px;
+}
+
+.reve-texte {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 15.5px;
+  line-height: 1.55;
+  color: var(--text-fort);
+  margin: 0;
+}
+
+/* Case à cocher rêve récurrent */
+.case-recurrent {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  color: var(--text);
+}
+
+.case-recurrent input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--teal);
+}

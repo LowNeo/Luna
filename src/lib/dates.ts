@@ -65,3 +65,9 @@ export function libelleJourMois(iso: string): string {
     .toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })
     .replace('.', '')
 }
+
+// Heure courante au format HH:MM
+export function heureMaintenant(): string {
+  const d = new Date()
+  return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`
+}
