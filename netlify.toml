@@ -1,0 +1,17 @@
+# Configuration de déploiement Netlify pour LUNA
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  # Vite 8 / TypeScript 6 requièrent une version récente de Node
+  NODE_VERSION = "22"
+
+# Fallback SPA : toutes les routes inconnues renvoient vers index.html
+# (nécessaire car on utilise React Router / BrowserRouter).
+# Les fichiers statiques existants (assets) restent servis normalement.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
