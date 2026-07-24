@@ -1,0 +1,17 @@
+{
+  "name": "LUNA — journal de suivi",
+  "short_name": "LUNA",
+  "description": "Journal de suivi personnel : humeur, cycle, corps et schémas.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0e0f",
+  "theme_color": "#080b0c",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
