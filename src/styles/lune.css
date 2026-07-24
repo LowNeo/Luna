@@ -1,0 +1,201 @@
+/* Écran « Lune & cycle » — la corolle */
+
+.lune-titre {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lune-nav {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--line-fort);
+  background: transparent;
+  color: var(--text);
+  font-size: 20px;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+}
+
+.lune-sous {
+  margin: 2px 0 4px;
+  font-size: 14px;
+}
+
+/* La corolle occupe toute la largeur, centrée */
+.corolle {
+  width: 100%;
+  max-width: 340px;
+  display: block;
+  margin: 8px auto 4px;
+  overflow: visible;
+}
+
+.corolle__centre {
+  font-family: var(--serif);
+  font-size: 22px;
+  fill: var(--teal-clair);
+}
+
+.lune-cycle-info {
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--text-dim);
+  margin: 0 0 20px;
+}
+
+/* Légende de la corolle */
+.legende {
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.legende__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+.legende__trait {
+  width: 4px;
+  height: 20px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, var(--teal-clair), #a89adf);
+  flex-shrink: 0;
+}
+
+.legende__lune {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #eef4f3, #55666a);
+  flex-shrink: 0;
+}
+
+.legende__ruban {
+  width: 18px;
+  height: 8px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #78d6c5, #8bb6dd, #b3a3df);
+  flex-shrink: 0;
+}
+
+/* Ruban d'humeurs */
+.ruban {
+  margin-top: 16px;
+  padding: 16px 18px;
+}
+
+.ruban__barres {
+  display: flex;
+  gap: 2px;
+  align-items: flex-end;
+  height: 30px;
+}
+
+.ruban__barre {
+  flex: 1;
+  height: 100%;
+  border-radius: 2px;
+  min-width: 0;
+}
+
+.ruban__reperes {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: 10.5px;
+  color: var(--text-dim);
+}
+
+.ruban__legende {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.ruban__item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12.5px;
+  color: var(--text);
+}
+
+.ruban__pastille {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Réglages (saisie règles + libido) */
+.reglages {
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.reglages__bloc .eyebrow {
+  margin-bottom: 10px;
+}
+
+.reglages__ligne {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.reglages__ligne .champ-heure {
+  flex: 1;
+}
+
+.reglages__liste {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.reglages__liste li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--text);
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+
+.reglages__libido {
+  display: flex;
+  gap: 10px;
+}
+
+.libido-pt {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid var(--line-fort);
+  background: transparent;
+  padding: 0;
+}
+
+.libido-pt--on {
+  background: radial-gradient(circle at 35% 30%, var(--teal-clair), var(--teal));
+  border-color: transparent;
+  box-shadow: 0 0 10px -2px var(--teal);
+}

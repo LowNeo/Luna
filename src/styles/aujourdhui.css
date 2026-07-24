@@ -1,0 +1,331 @@
+/* Écran « Aujourd'hui » (Jour) */
+
+.jour-entete {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.jour-entete .eyebrow {
+  margin-bottom: 10px;
+}
+
+/* Astre + libellé de lune */
+.lune-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.lune-badge__label {
+  font-size: 10.5px;
+  color: var(--text-dim);
+  letter-spacing: 0.02em;
+}
+
+/* Carte conseil */
+.conseil {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  text-align: left;
+  padding: 16px 18px;
+  color: var(--text);
+  background:
+    linear-gradient(180deg, var(--teal-dim), transparent 70%), var(--panel);
+}
+
+.conseil__texte {
+  margin: 6px 0 0;
+  font-size: 14.5px;
+  color: var(--text);
+}
+
+.conseil__fleche {
+  font-size: 22px;
+  color: var(--teal);
+}
+
+.jour-moments {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ---------- Carte d'un moment ---------- */
+
+.moment {
+  padding: 16px 18px 18px;
+}
+
+.moment__tete {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.moment__pastille {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1.5px solid var(--line-fort);
+  flex-shrink: 0;
+}
+
+.moment__pastille--on {
+  background: radial-gradient(circle at 35% 30%, var(--teal-clair), var(--teal));
+  border-color: transparent;
+}
+
+.moment__titre {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 20px;
+  color: var(--text-fort);
+  margin: 0;
+  flex: 1;
+}
+
+.moment__droite {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.moment__heure {
+  font-size: 12.5px;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.moment__attente {
+  font-size: 12.5px;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+.lien-mini {
+  background: none;
+  border: none;
+  color: var(--teal);
+  font-size: 12.5px;
+  padding: 2px 4px;
+}
+
+.moment__vide {
+  margin: 0;
+  color: var(--text-dim);
+  font-size: 13.5px;
+}
+
+/* Lignes humeur / énergie / confort */
+.moment__lignes {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ligne {
+  display: grid;
+  grid-template-columns: 76px 1fr;
+  align-items: center;
+  gap: 12px;
+}
+
+.ligne dt {
+  font-size: 13.5px;
+  color: var(--text-dim);
+}
+
+.ligne dd {
+  margin: 0;
+}
+
+/* Chips d'humeur */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.chip {
+  font-size: 12.5px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--teal-bord);
+  background: transparent;
+  color: var(--teal-clair);
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.chip--lecture {
+  cursor: default;
+}
+
+.chip--actif {
+  background: var(--teal-dim);
+  border-color: var(--teal);
+  color: var(--teal-clair);
+}
+
+.chips .chip:not(.chip--actif) {
+  border-color: var(--line-fort);
+  color: var(--text-dim);
+}
+
+/* Barre d'énergie */
+.energie {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.energie__seg {
+  height: 6px;
+  flex: 1;
+  border-radius: 3px;
+  background: var(--line);
+  border: none;
+  padding: 0;
+  min-width: 0;
+}
+
+button.energie__seg {
+  height: 14px;
+}
+
+.energie__seg--on {
+  background: linear-gradient(90deg, var(--teal), var(--teal-clair));
+}
+
+/* Échelle de confort */
+.confort {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.confort__points {
+  display: flex;
+  gap: 8px;
+}
+
+.confort__pt {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--line);
+  border: none;
+  padding: 0;
+}
+
+button.confort__pt {
+  width: 16px;
+  height: 16px;
+}
+
+.confort__pt--on {
+  background: var(--teal-clair);
+  box-shadow: 0 0 8px -1px var(--teal);
+}
+
+.confort__label {
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+/* Repas */
+.repas {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.repas__note {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 15px;
+  color: var(--text);
+  margin: 6px 0 0;
+}
+
+/* ---------- Édition ---------- */
+
+.edit {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.edit__champ .eyebrow {
+  margin-bottom: 9px;
+}
+
+.edit__champ--heure {
+  max-width: 160px;
+}
+
+.champ-texte,
+.champ-heure {
+  width: 100%;
+  font-family: var(--sans);
+  font-size: 14px;
+  color: var(--text-fort);
+  background: var(--panel-2);
+  border: 1px solid var(--line-fort);
+  border-radius: var(--r-sm);
+  padding: 10px 12px;
+  resize: vertical;
+}
+
+.champ-texte::placeholder {
+  color: var(--text-dim);
+}
+
+.champ-texte:focus,
+.champ-heure:focus {
+  outline: none;
+  border-color: var(--teal-bord);
+}
+
+.champ-heure {
+  color-scheme: dark;
+}
+
+.edit__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 2px;
+}
+
+.btn {
+  font-size: 13.5px;
+  padding: 9px 18px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+}
+
+.btn--fantome {
+  background: transparent;
+  border-color: var(--line-fort);
+  color: var(--text-dim);
+}
+
+.btn--plein {
+  background: linear-gradient(180deg, var(--teal-clair), var(--teal));
+  color: #05201c;
+  font-weight: 600;
+}
+
+.btn--plein:disabled {
+  opacity: 0.6;
+}

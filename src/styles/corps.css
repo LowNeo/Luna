@@ -1,0 +1,143 @@
+/* Écran « Corps » — poids & mensurations */
+
+.retour {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0 0 10px;
+}
+
+/* Variation (flèche + valeur) */
+.delta {
+  font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.delta--bas {
+  color: var(--teal-clair);
+}
+
+.delta--haut {
+  color: #dcae82;
+}
+
+.delta--neutre {
+  color: var(--text-dim);
+}
+
+/* Carte poids */
+.poids {
+  padding: 16px 18px 18px;
+}
+
+.poids__tete {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.poids__valeur {
+  font-family: var(--serif);
+  font-size: 44px;
+  line-height: 1;
+  color: var(--text-fort);
+  margin: 8px 0 18px;
+}
+
+.poids__valeur span {
+  font-size: 20px;
+  color: var(--text-dim);
+}
+
+.poids__barres {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 72px;
+}
+
+.poids__barre {
+  flex: 1;
+  min-width: 0;
+  border-radius: 5px 5px 3px 3px;
+  background: linear-gradient(180deg, var(--teal), rgba(85, 179, 164, 0.35));
+}
+
+.poids__dates {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+/* Liste des mensurations */
+.mens {
+  padding: 4px 18px;
+}
+
+.mens__ligne {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.mens__ligne:last-child {
+  border-bottom: none;
+}
+
+.mens__nom {
+  font-size: 14.5px;
+  color: var(--text-fort);
+}
+
+.mens__valeur {
+  font-size: 15px;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.mens__valeur em {
+  font-style: normal;
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+/* Carte « à relier au cycle » */
+.relier-cycle {
+  margin-top: 16px;
+  padding: 16px 18px;
+  background:
+    linear-gradient(180deg, var(--teal-dim), transparent 70%), var(--panel);
+}
+
+.relier-cycle__texte {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text);
+  margin: 8px 0 0;
+}
+
+/* Formulaire d'ajout */
+.ajouter-mesure {
+  width: 100%;
+  margin-top: 18px;
+  padding: 13px;
+}
+
+.form-mesure {
+  margin-top: 18px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
