@@ -1,8 +1,10 @@
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { MomentCard } from '../components/moment/MomentCard'
+import { NuitCard } from '../components/nuit/NuitCard'
 import { MoonBadge } from '../components/MoonBadge'
 import { useMomentsJour } from '../hooks/useMomentsJour'
+import { useNuit } from '../hooks/useNuit'
 import { aujourdhuiISO, libelleEntete } from '../lib/dates'
 import { phaseLune } from '../lib/lune'
 import { MOMENTS } from '../types/journal'
@@ -13,6 +15,7 @@ export function Aujourdhui() {
   // Pour l'instant on reste sur la date du jour (navigation à venir).
   const [date] = useState(aujourdhuiISO)
   const { momentPour, chargement, erreur, enregistrer } = useMomentsJour(date)
+  const { nuit, enregistrer: enregistrerNuit } = useNuit(date)
 
   const phase = useMemo(() => phaseLune(date), [date])
 
@@ -51,6 +54,9 @@ export function Aujourdhui() {
         <p className="etat">Chargement…</p>
       ) : (
         <div className="jour-moments">
+          {/* La nuit précédente ouvre la journée */}
+          <NuitCard nuit={nuit} onSave={enregistrerNuit} />
+
           {MOMENTS.map((m) => (
             <MomentCard
               key={m}

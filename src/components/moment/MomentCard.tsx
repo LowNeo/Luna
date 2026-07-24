@@ -98,6 +98,13 @@ function VueMoment({ moment, data }: { moment: Moment; data: MomentJour }) {
           <p className="repas__note">{data.repas_note}</p>
         </div>
       )}
+
+      {data.repas_remarque && (
+        <div className="repas repas--remarque">
+          <p className="eyebrow">Remarque</p>
+          <p className="repas__note">{data.repas_remarque}</p>
+        </div>
+      )}
     </>
   )
 }
@@ -122,6 +129,7 @@ function EditeurMoment({
     data?.confort_label ?? null,
   )
   const [repas, setRepas] = useState<string>(data?.repas_note ?? '')
+  const [remarque, setRemarque] = useState<string>(data?.repas_remarque ?? '')
   const [heure, setHeure] = useState<string>(data?.heure?.slice(0, 5) ?? '')
   const [enCours, setEnCours] = useState(false)
 
@@ -133,6 +141,7 @@ function EditeurMoment({
       confort_niveau: confortNiveau || null,
       confort_label: confortLabel,
       repas_note: repas.trim() || null,
+      repas_remarque: remarque.trim() || null,
       heure: heure || null,
     })
     setEnCours(false)
@@ -167,9 +176,20 @@ function EditeurMoment({
         <textarea
           className="champ-texte"
           rows={2}
-          placeholder="Ce que tu as mangé, un ressenti…"
+          placeholder="Ce que tu as mangé…"
           value={repas}
           onChange={(e) => setRepas(e.target.value)}
+        />
+      </div>
+
+      <div className="edit__champ">
+        <p className="eyebrow">Remarque sur le repas</p>
+        <textarea
+          className="champ-texte"
+          rows={2}
+          placeholder="Un ressenti, une observation (ex. un peu lourd après)…"
+          value={remarque}
+          onChange={(e) => setRemarque(e.target.value)}
         />
       </div>
 

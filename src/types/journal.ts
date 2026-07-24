@@ -16,14 +16,21 @@ export interface MomentJour {
   energie: number | null // 0 → 5
   confort_niveau: number | null // 0 → 5 (position sur l'échelle)
   confort_label: string | null // ex. « léger », « lourd »
-  repas_note: string | null
+  repas_note: string | null // ce que j'ai mangé
+  repas_remarque: string | null // ressenti / observation sur le repas
   cree_le: string
 }
 
 // Données modifiables d'un moment (ce que le formulaire édite)
 export type MomentSaisie = Pick<
   MomentJour,
-  'humeur' | 'energie' | 'confort_niveau' | 'confort_label' | 'repas_note' | 'heure'
+  | 'humeur'
+  | 'energie'
+  | 'confort_niveau'
+  | 'confort_label'
+  | 'repas_note'
+  | 'repas_remarque'
+  | 'heure'
 >
 
 // Ordre d'affichage des moments

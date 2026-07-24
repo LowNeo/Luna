@@ -242,11 +242,70 @@ button.confort__pt {
   color: var(--text-dim);
 }
 
+/* Nuit précédente */
+.nuit__astre {
+  font-size: 15px;
+  color: var(--teal-clair);
+  width: 12px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.nuit__heures {
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+
+.nuit__heures-edit {
+  display: flex;
+  gap: 14px;
+}
+
+.nuit__heures-edit .edit__champ {
+  flex: 1;
+}
+
+/* Compteur (réveils nocturnes) */
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.stepper__btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--line-fort);
+  background: transparent;
+  color: var(--text-fort);
+  font-size: 18px;
+  line-height: 1;
+}
+
+.stepper__val {
+  font-size: 17px;
+  color: var(--text-fort);
+  font-variant-numeric: tabular-nums;
+  min-width: 20px;
+  text-align: center;
+}
+
 /* Repas */
 .repas {
   margin-top: 16px;
   padding-top: 14px;
   border-top: 1px solid var(--line);
+}
+
+/* Remarque de repas : encart distinct de la note */
+.repas--remarque {
+  margin-top: 12px;
+}
+
+.repas--remarque .repas__note {
+  font-style: italic;
+  color: var(--text-dim);
 }
 
 .repas__note {
