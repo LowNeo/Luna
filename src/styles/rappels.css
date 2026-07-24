@@ -1,0 +1,36 @@
+/* Écran « Rappels » — conseils */
+
+.rappels-liste {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.rappel {
+  padding: 16px 18px 18px;
+}
+
+.rappel__titre {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 20px;
+  color: var(--text-fort);
+  margin: 8px 0 0;
+}
+
+.rappel__texte {
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--text);
+  margin: 8px 0 0;
+}
+
+.rappel__actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.rappel__btn {
+  padding: 8px 20px;
+}

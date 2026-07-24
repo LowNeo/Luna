@@ -5,6 +5,7 @@ import { Journal } from './pages/Journal'
 import { Lune } from './pages/Lune'
 import { Schemas } from './pages/Schemas'
 import { Corps } from './pages/Corps'
+import { Rappels } from './pages/Rappels'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/lune" element={<Lune />} />
           <Route path="/schemas" element={<Schemas />} />
           <Route path="/corps" element={<Corps />} />
+          <Route path="/rappels" element={<Rappels />} />
         </Route>
       </Routes>
     </BrowserRouter>

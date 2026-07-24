@@ -46,3 +46,15 @@ export function libelleLuneCourt(p: PhaseLune): string {
   if (base === 'nouvelle lune' || base === 'pleine lune') return base
   return `${base} ${p.croissante ? '↑' : '↓'}`
 }
+
+// Nombre de jours avant d'atteindre une fraction de cycle donnée (0/1 = nouvelle,
+// 0,5 = pleine). Toujours strictement à venir.
+function joursAvant(iso: string, cible: number): number {
+  const { fraction } = phaseLune(iso)
+  let d = cible - fraction
+  if (d <= 0) d += 1
+  return Math.round(d * CYCLE_SYNODIQUE)
+}
+
+export const joursAvantNouvelleLune = (iso: string) => joursAvant(iso, 1)
+export const joursAvantPleineLune = (iso: string) => joursAvant(iso, 0.5)

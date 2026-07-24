@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { MomentCard } from '../components/moment/MomentCard'
 import { MoonBadge } from '../components/MoonBadge'
 import { useMomentsJour } from '../hooks/useMomentsJour'
@@ -8,6 +9,7 @@ import { MOMENTS } from '../types/journal'
 import '../styles/aujourdhui.css'
 
 export function Aujourdhui() {
+  const navigate = useNavigate()
   // Pour l'instant on reste sur la date du jour (navigation à venir).
   const [date] = useState(aujourdhuiISO)
   const { momentPour, chargement, erreur, enregistrer } = useMomentsJour(date)
@@ -24,14 +26,15 @@ export function Aujourdhui() {
         <MoonBadge phase={phase} />
       </header>
 
-      {/* Conseil du jour — statique pour l'instant, alimenté plus tard
-          par la détection de schémas. */}
-      <button type="button" className="card conseil">
+      {/* Accès aux rappels du jour (conseils générés selon phase & schémas) */}
+      <button
+        type="button"
+        className="card conseil"
+        onClick={() => navigate('/rappels')}
+      >
         <div>
-          <p className="eyebrow eyebrow--teal">Conseil · {phase.nom}</p>
-          <p className="conseil__texte">
-            Note tes trois moments pour affiner tes schémas au fil des jours.
-          </p>
+          <p className="eyebrow eyebrow--teal">Pour toi · {phase.nom}</p>
+          <p className="conseil__texte">Vois tes rappels du jour</p>
         </div>
         <span className="conseil__fleche">›</span>
       </button>

@@ -7,8 +7,9 @@
 // le volume de données.
 
 import type { PhaseCycle } from './cycle'
-import { LABEL_PHASE } from './cycle'
-import type { Humeur } from '../types/journal'
+import { infoCycle, LABEL_PHASE } from './cycle'
+import { phaseLune } from './lune'
+import type { Humeur, Moment, MomentJour } from '../types/journal'
 
 // Nombre minimum de jours par groupe et de groupes pour oser une corrélation
 const MIN_N = 2
@@ -46,6 +47,45 @@ export const SCORE_HUMEUR: Record<Humeur, number> = {
   sensible: 3,
   agitee: 2,
   basse: 1,
+}
+
+// Moyenne des valeurs non nulles (null si aucune)
+function moyenne(vals: (number | null)[]): number | null {
+  const ok = vals.filter((v): v is number => v != null)
+  return ok.length ? ok.reduce((a, b) => a + b, 0) / ok.length : null
+}
+
+// Priorité pour l'humeur dominante d'un jour : le soir prime
+const PRIORITE_MOMENT: Moment[] = ['soir', 'apres_midi', 'matin']
+
+// Construit une ligne d'analyse par date à partir des données brutes.
+// Partagé par l'écran Schémas et l'écran Rappels (source unique de vérité).
+export function construitJoursAnalyse(
+  dates: string[],
+  momentsParDate: Map<string, MomentJour[]>,
+  starts: string[],
+  poidsParDate: Map<string, number>,
+): JourAnalyse[] {
+  return dates.map((date) => {
+    const moments = momentsParDate.get(date) ?? []
+    let scoreHumeur: number | null = null
+    for (const mo of PRIORITE_MOMENT) {
+      const t = moments.find((x) => x.moment === mo && x.humeur)
+      if (t?.humeur) {
+        scoreHumeur = SCORE_HUMEUR[t.humeur]
+        break
+      }
+    }
+    return {
+      date,
+      phaseCycle: infoCycle(starts, date).phase,
+      quadrant: quadrantLune(phaseLune(date).fraction),
+      scoreHumeur,
+      confort: moyenne(moments.map((m) => m.confort_niveau)),
+      energie: moyenne(moments.map((m) => m.energie)),
+      poids: poidsParDate.get(date) ?? null,
+    }
+  })
 }
 
 // --- Données d'entrée : une ligne par jour analysé ---
