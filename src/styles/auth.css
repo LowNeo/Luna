@@ -1,0 +1,68 @@
+/* Écran de connexion / inscription */
+
+.auth {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(120% 60% at 50% -10%, #0f1a1b 0%, transparent 60%),
+    var(--bg);
+}
+
+.auth__bloc {
+  width: 100%;
+  max-width: 360px;
+}
+
+.auth__marque {
+  font-family: var(--serif);
+  font-size: 18px;
+  letter-spacing: 0.24em;
+  color: var(--text-fort);
+  margin: 0 0 28px;
+}
+
+.auth__titre {
+  margin: 0;
+}
+
+.auth__sous {
+  font-size: 14.5px;
+  margin: 8px 0 28px;
+}
+
+.auth__form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.auth__submit {
+  margin-top: 6px;
+  padding: 12px;
+  width: 100%;
+}
+
+.auth__erreur {
+  font-size: 13px;
+  color: #d98b8b;
+  margin: 0;
+}
+
+.auth__message {
+  font-size: 13px;
+  color: var(--teal-clair);
+  margin: 0;
+}
+
+.auth__bascule {
+  display: block;
+  margin: 20px auto 0;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 13px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

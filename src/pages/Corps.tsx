@@ -3,6 +3,7 @@ import { PoidsCard } from '../components/corps/PoidsCard'
 import { MensurationsList } from '../components/corps/MensurationsList'
 import { AjouterMesure } from '../components/corps/AjouterMesure'
 import { useMesuresCorps } from '../hooks/useMesuresCorps'
+import { supabase } from '../lib/supabaseClient'
 import '../styles/corps.css'
 
 export function Corps() {
@@ -55,6 +56,14 @@ export function Corps() {
           <AjouterMesure onEnregistrer={enregistrer} />
         </>
       )}
+
+      <button
+        type="button"
+        className="btn btn--fantome deconnexion"
+        onClick={() => supabase.auth.signOut()}
+      >
+        Se déconnecter
+      </button>
     </>
   )
 }

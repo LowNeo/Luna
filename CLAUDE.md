@@ -8,7 +8,7 @@ Description : Journal de suivi personnel permettant de retracer des habitudes et
 - Supabase (PostgreSQL + RLS)
 - React Router DOM pour la navigation
 - CSS maison (design system dans `src/index.css` + `src/styles/`) — pas de librairie UI
-- **Pas d'authentification pour l'instant** : app mono-utilisateur. RLS activé avec une policy `anon` permissive (`acces_anon_temporaire`), à durcir quand l'auth sera ajoutée.
+- **Authentification Supabase** (email + mot de passe). Chaque table porte un `user_id` (défaut `auth.uid()`) et une policy RLS « propriétaire » : on ne voit/écrit que ses propres données. `App.tsx` affiche `Connexion` tant qu'il n'y a pas de session.
 
 # Structure des dossiers
 src/components  -> composants réutilisables (regroupés par écran)
