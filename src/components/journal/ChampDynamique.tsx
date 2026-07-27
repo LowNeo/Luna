@@ -1,4 +1,5 @@
 import { EnergieBar } from '../moment/EnergieBar'
+import { ChronoField } from './ChronoField'
 import type { ChampDef } from '../../types/journalTypes'
 
 // Rend le bon contrôle de saisie selon la nature d'un champ.
@@ -38,6 +39,9 @@ export function ChampDynamique({
 
     case 'echelle':
       return <EnergieBar value={(valeur as number) ?? 0} onChange={(n) => onChange(n)} />
+
+    case 'chrono':
+      return <ChronoField valeur={valeur} onChange={onChange} />
 
     case 'booleen':
       return (

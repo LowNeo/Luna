@@ -8,7 +8,7 @@ interface Ligne {
   unite: string
 }
 
-const KINDS: KindChamp[] = ['texte', 'zone', 'nombre', 'echelle', 'booleen']
+const KINDS: KindChamp[] = ['texte', 'zone', 'nombre', 'echelle', 'booleen', 'chrono']
 
 // Formulaire de création d'un type personnalisé (nom + champs).
 export function NouveauType({

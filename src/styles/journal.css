@@ -242,3 +242,22 @@
 
 .type-champ .champ-heure { min-width: 0; }
 .type-champ select.champ-heure { color-scheme: dark; }
+
+/* Champ chronomètre */
+.chrono {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.chrono__temps {
+  font-family: var(--serif);
+  font-size: 26px;
+  color: var(--text-fort);
+  font-variant-numeric: tabular-nums;
+  min-width: 62px;
+}
+
+.chrono__btn {
+  padding: 8px 18px;
+}

@@ -2,7 +2,7 @@
 // Chaque type possède une liste de champs ; l'heure est gérée à part
 // (commune à tous les types, sert au tri de la timeline).
 
-export type KindChamp = 'texte' | 'zone' | 'nombre' | 'echelle' | 'booleen'
+export type KindChamp = 'texte' | 'zone' | 'nombre' | 'echelle' | 'booleen' | 'chrono'
 
 export interface ChampDef {
   cle: string
@@ -26,6 +26,7 @@ export const LABEL_KIND: Record<KindChamp, string> = {
   nombre: 'Nombre',
   echelle: 'Échelle 1-5',
   booleen: 'Oui / non',
+  chrono: 'Chronomètre',
 }
 
 // Types intégrés (d'après le fichier de suivi)
@@ -84,8 +85,18 @@ export const TYPES_BUILTIN: TypeJournal[] = [
     label: 'Bouffée de chaleur',
     couleur: '#cf7d7d',
     champs: [
-      { cle: 'duree', label: 'Durée', kind: 'nombre', unite: 'min' },
+      { cle: 'duree', label: 'Durée', kind: 'chrono' },
       { cle: 'contexte', label: 'Contexte', kind: 'texte' },
+    ],
+  },
+  {
+    cle: 'reve',
+    label: 'Rêve',
+    couleur: '#b3a3df',
+    champs: [
+      { cle: 'description', label: 'Description', kind: 'zone' },
+      { cle: 'ressenti', label: 'Ressenti', kind: 'texte' },
+      { cle: 'interpretation', label: 'Interprétation', kind: 'zone' },
     ],
   },
   {
@@ -126,6 +137,13 @@ export function formatValeur(champ: ChampDef, v: unknown): string | null {
       return champ.unite ? `${v} ${champ.unite}` : String(v)
     case 'booleen':
       return v ? 'oui' : null
+    case 'chrono': {
+      const sec = Number(v)
+      if (!sec) return null
+      const m = Math.floor(sec / 60)
+      const s = sec % 60
+      return m ? `${m} min ${s} s` : `${s} s`
+    }
     default:
       return String(v)
   }
