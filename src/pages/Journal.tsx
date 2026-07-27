@@ -7,7 +7,8 @@ import '../styles/journal.css'
 
 export function Journal() {
   const [date, setDate] = useState(aujourdhuiISO)
-  const { items, chargement, erreur, ajouter, supprimer } = useJournalJour(date)
+  const { items, types, chargement, erreur, ajouter, supprimer, creerType } =
+    useJournalJour(date)
 
   return (
     <>
@@ -47,7 +48,7 @@ export function Journal() {
       ) : (
         <>
           <Timeline items={items} onSupprimer={supprimer} />
-          <AjouterEntree onAjouter={ajouter} />
+          <AjouterEntree types={types} onAjouter={ajouter} onCreerType={creerType} />
         </>
       )}
     </>

@@ -1,34 +1,39 @@
 import { useCallback, useEffect, useState } from 'react'
 import { supabase } from '../lib/supabaseClient'
-import type { EntreeJournal, EntreeSaisie, TypeEntree } from '../types/journalEntree'
-import { LABEL_TYPE_ENTREE } from '../types/journalEntree'
+import type { EntreeJournal, EntreeSaisie } from '../types/journalEntree'
+import type { ChampDef, TypeJournal } from '../types/journalTypes'
+import { couleurPerso, formatValeur, slug, TYPES_BUILTIN } from '../types/journalTypes'
 import type { MomentJour } from '../types/journal'
 import { LABEL_REPAS } from '../types/journal'
 
-// Un élément de la timeline (entrée libre OU repas dérivé d'un moment)
+// Une valeur affichée dans la timeline
+export interface ChampAffiche {
+  label: string
+  valeur: string
+}
+
+// Un élément de la timeline (entrée typée OU repas dérivé d'un moment)
 export interface ItemTimeline {
   cle: string
   heure: string | null // HH:MM
-  type: TypeEntree
-  titre: string
-  texte: string | null
-  recurrent: boolean
-  source: 'journal' | 'moment' // 'moment' = dérivé (repas), non éditable ici
-  id?: string // id de l'entrée journal (pour suppression)
+  typeLabel: string
+  couleur: string
+  champs: ChampAffiche[]
+  source: 'journal' | 'moment'
+  id?: string
 }
 
 function hhmm(heure: string | null): string | null {
   return heure ? heure.slice(0, 5) : null
 }
 
-// Clé de tri : les heures nulles vont en fin de journée
 function cleTri(heure: string | null): string {
   return heure ? heure.slice(0, 5) : '99:99'
 }
 
-// Charge et fusionne la timeline d'une journée.
 export function useJournalJour(date: string) {
   const [items, setItems] = useState<ItemTimeline[]>([])
+  const [types, setTypes] = useState<TypeJournal[]>(TYPES_BUILTIN)
   const [chargement, setChargement] = useState(true)
   const [erreur, setErreur] = useState<string | null>(null)
 
@@ -36,12 +41,13 @@ export function useJournalJour(date: string) {
     setChargement(true)
     setErreur(null)
 
-    const [rEntrees, rMoments] = await Promise.all([
+    const [rEntrees, rMoments, rTypes] = await Promise.all([
       supabase.from('entrees_journal').select('*').eq('date', date),
       supabase.from('moments_jour').select('*').eq('date', date),
+      supabase.from('journal_types').select('*'),
     ])
 
-    const err = rEntrees.error || rMoments.error
+    const err = rEntrees.error || rMoments.error || rTypes.error
     if (err) {
       setErreur(err.message)
       setItems([])
@@ -49,35 +55,64 @@ export function useJournalJour(date: string) {
       return
     }
 
-    // Entrées libres
-    const libres: ItemTimeline[] = (rEntrees.data as EntreeJournal[]).map((e) => ({
-      cle: `j-${e.id}`,
-      heure: hhmm(e.heure),
-      type: e.type,
-      titre: e.titre?.trim() || LABEL_TYPE_ENTREE[e.type],
-      texte: e.texte,
-      recurrent: e.recurrent,
-      source: 'journal',
-      id: e.id,
+    // Types : intégrés + personnalisés
+    const perso: TypeJournal[] = (rTypes.data ?? []).map((t) => ({
+      cle: t.cle as string,
+      label: t.label as string,
+      couleur: couleurPerso(t.cle as string),
+      champs: (t.champs as ChampDef[]) ?? [],
+      perso: true,
     }))
+    const tousTypes = [...TYPES_BUILTIN, ...perso]
+    const parCle = new Map(tousTypes.map((t) => [t.cle, t]))
+    setTypes(tousTypes)
 
-    // Repas dérivés des moments (uniquement ceux qui ont une note)
+    // Entrées typées
+    const libres: ItemTimeline[] = (rEntrees.data as EntreeJournal[]).map((e) => {
+      const def = parCle.get(e.type)
+      let champs: ChampAffiche[] = []
+      if (def) {
+        champs = def.champs
+          .map((c) => {
+            const v = formatValeur(c, (e.donnees ?? {})[c.cle])
+            return v == null ? null : { label: c.label, valeur: v }
+          })
+          .filter((x): x is ChampAffiche => x !== null)
+      }
+      // repli pour les anciennes entrées libres
+      if (champs.length === 0 && e.texte) champs = [{ label: '', valeur: e.texte }]
+
+      return {
+        cle: `j-${e.id}`,
+        heure: hhmm(e.heure),
+        typeLabel: def?.label ?? e.titre ?? e.type,
+        couleur: def?.couleur ?? '#9fb0af',
+        champs,
+        source: 'journal',
+        id: e.id,
+      }
+    })
+
+    // Repas dérivés des moments
     const repas: ItemTimeline[] = (rMoments.data as MomentJour[])
-      .filter((m) => m.repas_note)
-      .map((m) => ({
-        cle: `m-${m.id}`,
-        heure: hhmm(m.heure),
-        type: 'repas',
-        titre: LABEL_REPAS[m.moment],
-        texte: m.repas_note,
-        recurrent: false,
-        source: 'moment',
-      }))
+      .filter((m) => m.repas_note || m.repas_remarque)
+      .map((m) => {
+        const champs: ChampAffiche[] = []
+        if (m.repas_note) champs.push({ label: '', valeur: m.repas_note })
+        if (m.repas_remarque) champs.push({ label: 'Remarque', valeur: m.repas_remarque })
+        return {
+          cle: `m-${m.id}`,
+          heure: hhmm(m.heure),
+          typeLabel: LABEL_REPAS[m.moment],
+          couleur: '#86c08f',
+          champs,
+          source: 'moment',
+        }
+      })
 
     const tous = [...libres, ...repas].sort((a, b) =>
       cleTri(a.heure).localeCompare(cleTri(b.heure)),
     )
-
     setItems(tous)
     setChargement(false)
   }, [date])
@@ -86,12 +121,15 @@ export function useJournalJour(date: string) {
     charger()
   }, [charger])
 
-  // Ajoute une entrée libre
+  // Ajoute une entrée typée
   const ajouter = useCallback(
     async (saisie: EntreeSaisie) => {
-      const { error } = await supabase
-        .from('entrees_journal')
-        .insert({ date, ...saisie })
+      const { error } = await supabase.from('entrees_journal').insert({
+        date,
+        type: saisie.type,
+        heure: saisie.heure,
+        donnees: saisie.donnees,
+      })
       if (error) {
         setErreur(error.message)
         return false
@@ -102,7 +140,7 @@ export function useJournalJour(date: string) {
     [date, charger],
   )
 
-  // Supprime une entrée libre
+  // Supprime une entrée
   const supprimer = useCallback(
     async (id: string) => {
       const { error } = await supabase.from('entrees_journal').delete().eq('id', id)
@@ -116,5 +154,30 @@ export function useJournalJour(date: string) {
     [charger],
   )
 
-  return { items, chargement, erreur, recharger: charger, ajouter, supprimer }
+  // Crée un type personnalisé
+  const creerType = useCallback(
+    async (label: string, champs: ChampDef[]) => {
+      const cle = slug(label)
+      if (!cle) {
+        setErreur('Nom de type invalide.')
+        return false
+      }
+      const { error } = await supabase
+        .from('journal_types')
+        .insert({ cle, label: label.trim(), champs })
+      if (error) {
+        setErreur(
+          /duplicate|unique/i.test(error.message)
+            ? 'Ce type existe déjà.'
+            : error.message,
+        )
+        return false
+      }
+      await charger()
+      return true
+    },
+    [charger],
+  )
+
+  return { items, types, chargement, erreur, recharger: charger, ajouter, supprimer, creerType }
 }
