@@ -9,7 +9,8 @@
 import type { PhaseCycle } from './cycle'
 import { infoCycle, LABEL_PHASE } from './cycle'
 import { phaseLune } from './lune'
-import type { Humeur, Moment, MomentJour } from '../types/journal'
+import { scoreGroupes } from '../types/emotions'
+import type { Moment, MomentJour } from '../types/journal'
 
 // Nombre minimum de jours par groupe et de groupes pour oser une corrélation
 const MIN_N = 2
@@ -40,15 +41,6 @@ export function quadrantLune(fraction: number): Quadrant {
   return 'dernier'
 }
 
-// Humeur → score numérique (haut = mieux)
-export const SCORE_HUMEUR: Record<Humeur, number> = {
-  lumineuse: 5,
-  douce: 4,
-  sensible: 3,
-  agitee: 2,
-  basse: 1,
-}
-
 // Moyenne des valeurs non nulles (null si aucune)
 function moyenne(vals: (number | null)[]): number | null {
   const ok = vals.filter((v): v is number => v != null)
@@ -70,9 +62,9 @@ export function construitJoursAnalyse(
     const moments = momentsParDate.get(date) ?? []
     let scoreHumeur: number | null = null
     for (const mo of PRIORITE_MOMENT) {
-      const t = moments.find((x) => x.moment === mo && x.humeur)
-      if (t?.humeur) {
-        scoreHumeur = SCORE_HUMEUR[t.humeur]
+      const t = moments.find((x) => x.moment === mo && x.humeur_groupes.length > 0)
+      if (t) {
+        scoreHumeur = scoreGroupes(t.humeur_groupes)
         break
       }
     }

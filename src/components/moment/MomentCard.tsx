@@ -1,12 +1,8 @@
 import { useState } from 'react'
-import type {
-  Humeur,
-  Moment,
-  MomentJour,
-  MomentSaisie,
-} from '../../types/journal'
+import type { Moment, MomentJour, MomentSaisie } from '../../types/journal'
 import { LABEL_MOMENT, LABEL_REPAS } from '../../types/journal'
-import { HumeurChip } from './HumeurChip'
+import { HumeurAffichage } from './HumeurAffichage'
+import { HumeurSelecteur } from './HumeurSelecteur'
 import { EnergieBar } from './EnergieBar'
 import { ConfortScale } from './ConfortScale'
 
@@ -75,7 +71,7 @@ function VueMoment({ moment, data }: { moment: Moment; data: MomentJour }) {
         <div className="ligne">
           <dt>Humeur</dt>
           <dd>
-            <HumeurChip value={data.humeur} />
+            <HumeurAffichage groupes={data.humeur_groupes} nuances={data.humeur_nuances} />
           </dd>
         </div>
         <div className="ligne">
@@ -122,7 +118,8 @@ function EditeurMoment({
   onSave: (saisie: MomentSaisie) => Promise<boolean>
   onAnnuler: () => void
 }) {
-  const [humeur, setHumeur] = useState<Humeur | null>(data?.humeur ?? null)
+  const [groupes, setGroupes] = useState<string[]>(data?.humeur_groupes ?? [])
+  const [nuances, setNuances] = useState<string[]>(data?.humeur_nuances ?? [])
   const [energie, setEnergie] = useState<number>(data?.energie ?? 0)
   const [confortNiveau, setConfortNiveau] = useState<number>(data?.confort_niveau ?? 0)
   const [confortLabel, setConfortLabel] = useState<string | null>(
@@ -136,7 +133,8 @@ function EditeurMoment({
   async function enregistrer() {
     setEnCours(true)
     await onSave({
-      humeur,
+      humeur_groupes: groupes,
+      humeur_nuances: nuances,
       energie: energie || null,
       confort_niveau: confortNiveau || null,
       confort_label: confortLabel,
@@ -151,7 +149,14 @@ function EditeurMoment({
     <div className="edit">
       <div className="edit__champ">
         <p className="eyebrow">Humeur</p>
-        <HumeurChip value={humeur} onChange={setHumeur} />
+        <HumeurSelecteur
+          groupes={groupes}
+          nuances={nuances}
+          onChange={(g, n) => {
+            setGroupes(g)
+            setNuances(n)
+          }}
+        />
       </div>
 
       <div className="edit__champ">

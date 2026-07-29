@@ -6,6 +6,7 @@ import { aujourdhuiISO, decaleJours, diffJours } from '../lib/dates'
 import { construitJoursAnalyse, construitSchemas, quadrantLune } from '../lib/schemas'
 import { genererRappels } from '../lib/rappels'
 import type { Rappel } from '../lib/rappels'
+import { scoreGroupes } from '../types/emotions'
 import type { MomentJour } from '../types/journal'
 
 const FENETRE_JOURS = 90
@@ -65,14 +66,13 @@ export function useRappels() {
       joursAvantRegles = diffJours(auj, prochaines)
     }
 
-    // Soirs tendus sur les 7 derniers jours
+    // Soirs tendus sur les 7 derniers jours (humeur du soir à faible valence)
     const seuil7 = decaleJours(auj, -6)
-    const soirsTendus = moments.filter(
-      (m) =>
-        m.date >= seuil7 &&
-        m.moment === 'soir' &&
-        (m.humeur === 'agitee' || m.humeur === 'basse'),
-    ).length
+    const soirsTendus = moments.filter((m) => {
+      if (m.date < seuil7 || m.moment !== 'soir') return false
+      const score = scoreGroupes(m.humeur_groupes)
+      return score != null && score <= 2
+    }).length
 
     const tous = genererRappels({
       date: auj,

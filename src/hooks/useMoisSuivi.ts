@@ -5,7 +5,7 @@ import type { InfoCycle } from '../lib/cycle'
 import { phaseLune } from '../lib/lune'
 import type { PhaseLune } from '../lib/lune'
 import { joursDansMois } from '../lib/dates'
-import type { Humeur, Moment, MomentJour } from '../types/journal'
+import type { Moment, MomentJour } from '../types/journal'
 
 // Donnée agrégée pour un jour du mois (corolle + ruban d'humeurs)
 export interface JourSuivi {
@@ -14,16 +14,19 @@ export interface JourSuivi {
   lune: PhaseLune
   cycle: InfoCycle
   libido: number // 0 → 5
-  humeur: Humeur | null // humeur dominante du jour
+  groupe: string | null // groupe d'émotion dominant du jour
 }
 
 // Priorité pour choisir l'humeur « dominante » d'un jour : le soir prime.
 const PRIORITE_MOMENT: Moment[] = ['soir', 'apres_midi', 'matin']
 
-function humeurDominante(momentsDuJour: MomentJour[]): Humeur | null {
+// Groupe d'émotion principal du jour (1er groupe du moment prioritaire renseigné)
+function groupeDominant(momentsDuJour: MomentJour[]): string | null {
   for (const m of PRIORITE_MOMENT) {
-    const trouve = momentsDuJour.find((x) => x.moment === m && x.humeur)
-    if (trouve?.humeur) return trouve.humeur
+    const trouve = momentsDuJour.find(
+      (x) => x.moment === m && x.humeur_groupes.length > 0,
+    )
+    if (trouve) return trouve.humeur_groupes[0]
   }
   return null
 }
@@ -76,7 +79,7 @@ export function useMoisSuivi(annee: number, mois0: number) {
       lune: phaseLune(iso),
       cycle: infoCycle(starts, iso),
       libido: libidoParDate.get(iso) ?? 0,
-      humeur: humeurDominante(momentsParDate.get(iso) ?? []),
+      groupe: groupeDominant(momentsParDate.get(iso) ?? []),
     }))
 
     setReglesStarts(starts)
