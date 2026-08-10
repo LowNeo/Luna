@@ -101,7 +101,7 @@ export function useRappels() {
       setRappels((prev) => prev.filter((r) => r.cle !== cle))
       const { error } = await supabase
         .from('rappels_etat')
-        .upsert({ cle, date: aujourdhuiISO(), etat }, { onConflict: 'cle,date' })
+        .upsert({ cle, date: aujourdhuiISO(), etat }, { onConflict: 'user_id,cle,date' })
       if (error) setErreur(error.message)
     },
     [],

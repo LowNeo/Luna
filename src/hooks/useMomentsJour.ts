@@ -37,7 +37,7 @@ export function useMomentsJour(date: string) {
       const ligne = { date, moment, ...saisie }
       const { error } = await supabase
         .from('moments_jour')
-        .upsert(ligne, { onConflict: 'date,moment' })
+        .upsert(ligne, { onConflict: 'user_id,date,moment' })
 
       if (error) {
         setErreur(error.message)

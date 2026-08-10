@@ -73,7 +73,7 @@ export function useMesuresCorps() {
     async (date: string, saisie: MesureSaisie) => {
       const { error } = await supabase
         .from('mesures_corps')
-        .upsert({ date, ...saisie }, { onConflict: 'date' })
+        .upsert({ date, ...saisie }, { onConflict: 'user_id,date' })
       if (error) {
         setErreur(error.message)
         return false

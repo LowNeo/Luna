@@ -97,7 +97,7 @@ export function useMoisSuivi(annee: number, mois0: number) {
     async (dateIso: string) => {
       const { error } = await supabase
         .from('regles')
-        .upsert({ date_debut: dateIso }, { onConflict: 'date_debut' })
+        .upsert({ date_debut: dateIso }, { onConflict: 'user_id,date_debut' })
       if (error) return setErreur(error.message), false
       await charger()
       return true
@@ -121,7 +121,7 @@ export function useMoisSuivi(annee: number, mois0: number) {
     async (dateIso: string, valeur: number) => {
       const { error } = await supabase
         .from('suivi_jour')
-        .upsert({ date: dateIso, libido: valeur }, { onConflict: 'date' })
+        .upsert({ date: dateIso, libido: valeur }, { onConflict: 'user_id,date' })
       if (error) return setErreur(error.message), false
       await charger()
       return true

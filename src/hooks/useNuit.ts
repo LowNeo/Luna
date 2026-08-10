@@ -34,7 +34,7 @@ export function useNuit(date: string) {
     async (saisie: NuitSaisie) => {
       const { error } = await supabase
         .from('nuits')
-        .upsert({ date, ...saisie }, { onConflict: 'date' })
+        .upsert({ date, ...saisie }, { onConflict: 'user_id,date' })
       if (error) {
         setErreur(error.message)
         return false
